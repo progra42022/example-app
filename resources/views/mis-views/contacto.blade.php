@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1> Formulario de Contacto </h1>
+    <h1> Formulario de Contacto VIP </h1>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
