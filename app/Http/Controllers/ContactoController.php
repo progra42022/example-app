@@ -3,6 +3,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactoRecibido;
+use App\Models\Contact;
 
 class ContactoController extends BaseController
 {
@@ -20,7 +23,11 @@ class ContactoController extends BaseController
             'mensaje' => 'required',
         ]);
         //enviar mensaje
+        $input = $request->input();
+        $input['publicidad'] = isset($input['publicidad']) && isset($input['publicidad']) == 'on';
+        Contact::create($input);
         
+        Mail::send(new ContactoRecibido($request->input()));
         return redirect(route('contactado'), 302); //https://restfulapi.net/http-status-codes/#3xx
     }
 

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\CarritoController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +20,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\PrimerController;
-Route::match(['get', 'post'],'/mi-primer-controller', [PrimerController::class, 'index']);
-Route::get('/mi-primer-controller/{texto}', [PrimerController::class, 'show'])->name('mi-controller');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-use App\Http\Controllers\ContactoController;
+require __DIR__.'/auth.php';
 
-Route::get('/contacto', [ContactoController::class, 'index']);
-Route::post('/contacto', [ContactoController::class, 'send']);
-Route::get('/contactado', [ContactoController::class, 'contacted'])->name('contactado');
+Route::get('/categorias', [CategoriaController::class, 'index']);
+Route::get('/categorias/{id}', [CategoriaController::class, 'get']);
+Route::get('/carrito/agregar/{id}', [CarritoController::class, 'agregar']);
+Route::get('/carrito/eliminar/{id}', [CarritoController::class, 'eliminar']);
